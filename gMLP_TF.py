@@ -6,9 +6,9 @@ class gmlp_block(tf.keras.Model):
         super(gmlp_block,self).__init__()
 
         self.layer_norm = tf.keras.layers.LayerNormalization()
-        self.channel_proj_i = tf.keras.layers.Dense(d_model)
-        self.channel_proj_ii = tf.keras.layers.Dense(d_ffn)
-        self.spatial_gating_unit = spatial_gating_unit()
+        self.channel_proj_i = tf.keras.layers.Dense(d_ffn)
+        self.channel_proj_ii = tf.keras.layers.Dense(d_model)
+        self.spatial_gating_unit = spatial_gating_unit(d_ffn)
 
     def call(self,x):
         residual = x
@@ -21,11 +21,11 @@ class gmlp_block(tf.keras.Model):
         return x + residual
 
 class spatial_gating_unit(tf.keras.Model):
-    def __init__(self):
+    def __init__(self,d_ffn):
         super(spatial_gating_unit,self):
 
         self.layer_norm = tf.keras.layers.LayerNormalization()
-        self.spatial_proj = 
+        self.spatial_proj = tf.keras.layers.Conv1d(d_ffn/2,1,kernel_initializer='zeros',bias_initializer='ones)
         
     def call(self,x):
         u,v = tf.split(x, 2, axis=-1)
