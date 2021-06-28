@@ -22,10 +22,10 @@ class gmlp_block(tf.keras.Model):
 
 class spatial_gating_unit(tf.keras.Model):
     def __init__(self,d_ffn):
-        super(spatial_gating_unit,self):
+        super(spatial_gating_unit,self).__init__()
 
         self.layer_norm = tf.keras.layers.LayerNormalization()
-        self.spatial_proj = tf.keras.layers.Conv1d(d_ffn/2,1,kernel_initializer='zeros',bias_initializer='ones)
+        self.spatial_proj = tf.keras.layers.Conv1d(d_ffn/2,1,kernel_initializer='zeros',bias_initializer='ones')
         
     def call(self,x):
         u,v = tf.split(x, 2, axis=-1)
