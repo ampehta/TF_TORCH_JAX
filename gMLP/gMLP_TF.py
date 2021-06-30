@@ -41,3 +41,13 @@ class gMLP(tf.keras.Model):
     def call(self,x):
         x = self.model(x)
         return x
+
+class gMLP_LanguageModel(gMLP):
+    def __init__(self,num_tokens=10000, d_model=256, d_ffn=512, seq_len=256, num_layers=6):
+        super().__init__(d_model,d_ffn,seq_len)
+        self.embed = tf.keras.layers.Embedding(num_tokens,d_model)
+        
+    def call(self,x):
+        embedding = self.embed(x)
+        output = self.model(embedding)
+        return output
