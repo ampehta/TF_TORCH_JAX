@@ -34,3 +34,12 @@ class SpatialGatingUnit(nn.Module):
         v = self.spatial_proj(v)
 
         return u * v
+    
+ class gMLP(nn.Module):
+    def __init__(self,d_model=256,d_ffn=512,seq_len=256,num_layers=6):
+        super(gMLP,self).__init__()
+        self.model = nn.Sequential(*[gMLPBLOCK(d_model,d_ffn,seq_len) for _ in range(num_layers)])
+        
+    def forward(self,x):
+        x = self.model(x)
+        return x
