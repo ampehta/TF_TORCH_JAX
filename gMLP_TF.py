@@ -32,3 +32,12 @@ class spatial_gating_unit(tf.keras.Model):
         v = self.layer_norm(v)
         v = self.spatial_proj(v)
         return u * v 
+    
+class gMLP(tf.keras.Model):
+    def __init__(self,d_model=256,d_ffn=512,seq_len=256,num_layers=6):
+        super(gMLP,self).__init__()
+        self.model = tf.keras.Sequential([gmlp_block(d_model,d_ffn,seq_len) for _ in range(num_layers)])
+
+    def call(self,x):
+        x = self.model(x)
+        return x
